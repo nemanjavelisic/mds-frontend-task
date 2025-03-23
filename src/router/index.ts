@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import TodoView from "../views/TodoView.vue";
+import TodoView from "@/views/TodoView.vue";
+import KanbanView from "@/views/KanbanView.vue";
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -9,9 +11,9 @@ const router = createRouter({
       component: () => TodoView,
     },
     {
-      path: "/todos",
-      name: "todos",
-      component: () => TodoView,
+      path: "/kanban",
+      name: "kanban",
+      component: () => KanbanView,
     },
   ],
 });

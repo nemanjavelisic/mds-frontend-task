@@ -21,6 +21,9 @@ const defaultColumns: Column[] = [
 export const useKanbanStore = defineStore("kanbanStore", {
   state: () => ({
     columns: defaultColumns,
+    modalTask: null as Task | null,
+    modalColumnId: null as number | null,
+    isModalOpen: false,
   }),
   actions: {
     addColumn(title: string) {
@@ -49,6 +52,31 @@ export const useKanbanStore = defineStore("kanbanStore", {
       if (column) {
         column.tasks = column.tasks.filter((task: Task) => task.id !== taskId);
       }
+    },
+    updateTaskDescription(
+      columnId: number,
+      taskId: number,
+      description: string
+    ) {
+      const column = this.columns.find((col: Column) => col.id === columnId);
+      if (column) {
+        const taskIndex = column.tasks.findIndex(
+          (task: Task) => task.id === taskId
+        );
+        if (taskIndex !== -1) {
+          column.tasks[taskIndex].description = description;
+        }
+      }
+    },
+    openModal(task: Task, columnId: number) {
+      this.modalTask = task;
+      this.modalColumnId = columnId;
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.modalTask = null;
+      this.modalColumnId = null;
+      this.isModalOpen = false;
     },
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <div class="task-item">
+  <div class="task-item" @click="handleClick">
     <span class="task-title">{{ task.title }}</span>
     <button class="delete-btn" @click.stop="handleDelete">X</button>
   </div>
@@ -12,6 +12,10 @@ const props = defineProps<{
   columnId: number;
 }>();
 const store = useKanbanStore();
+
+function handleClick() {
+  store.openModal(props.task, props.columnId);
+}
 
 function handleDelete() {
   store.deleteTask(props.columnId, props.task.id);

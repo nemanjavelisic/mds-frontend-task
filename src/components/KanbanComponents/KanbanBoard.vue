@@ -56,7 +56,6 @@ function handleAddColumn() {
 }
 .columns {
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;

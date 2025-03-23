@@ -12,6 +12,7 @@
       item-key="id"
       class="tasks"
       animation="150"
+      @end="store.saveState"
     >
       <template #item="{ element }">
         <TaskItem :task="element" :columnId="column.id" />

@@ -11,13 +11,17 @@
       </button>
     </div>
 
-    <div class="columns">
-      <KanbanColumn
-        v-for="column in store.columns"
-        :key="column.id"
-        :column="column"
-      />
-    </div>
+    <draggable
+      v-model="store.columns"
+      group="columns"
+      item-key="id"
+      class="columns"
+      animation="150"
+    >
+      <template #item="{ element }">
+        <KanbanColumn :column="element" />
+      </template>
+    </draggable>
   </div>
 </template>
 
@@ -25,6 +29,7 @@
 import { ref } from "vue";
 import KanbanColumn from "@/components/KanbanComponents/KanbanColumn.vue";
 import { useKanbanStore } from "@/stores/kanbanStore";
+import draggable from "vuedraggable";
 
 const store = useKanbanStore();
 const newColumnTitle = ref("");

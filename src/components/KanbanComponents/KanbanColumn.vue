@@ -6,16 +6,17 @@
         X
       </button>
     </div>
-
-    <div class="tasks">
-      <TaskItem
-        v-for="task in column.tasks"
-        :key="task.id"
-        :task="task"
-        :columnId="column.id"
-      />
-    </div>
-
+    <draggable
+      v-model="column.tasks"
+      group="tasks"
+      item-key="id"
+      class="tasks"
+      animation="150"
+    >
+      <template #item="{ element }">
+        <TaskItem :task="element" :columnId="column.id" />
+      </template>
+    </draggable>
     <div class="add-task">
       <input v-model="newTaskName" placeholder="Task name" class="task-input" />
       <button class="add-task-btn" @click="handleAddTask">Add Task</button>
@@ -28,6 +29,7 @@ import { useKanbanStore } from "@/stores/kanbanStore";
 import type { Column } from "@/types/kanbanTypes";
 import { ref } from "vue";
 import TaskItem from "@/components/KanbanComponents/TaskItem.vue";
+import draggable from "vuedraggable";
 
 const props = defineProps<{ column: Column }>();
 const store = useKanbanStore();

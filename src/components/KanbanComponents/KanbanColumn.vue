@@ -6,15 +6,38 @@
         X
       </button>
     </div>
+
+    <div class="tasks">
+      <TaskItem
+        v-for="task in column.tasks"
+        :key="task.id"
+        :task="task"
+        :columnId="column.id"
+      />
+    </div>
+
+    <div class="add-task">
+      <input v-model="newTaskName" placeholder="Task name" class="task-input" />
+      <button class="add-task-btn" @click="handleAddTask">Add Task</button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useKanbanStore } from "@/stores/kanbanStore";
 import type { Column } from "@/types/kanbanTypes";
+import { ref } from "vue";
+import TaskItem from "@/components/KanbanComponents/TaskItem.vue";
 
-defineProps<{ column: Column }>();
+const props = defineProps<{ column: Column }>();
 const store = useKanbanStore();
+const newTaskName = ref("");
+
+function handleAddTask() {
+  if (!newTaskName.value.trim()) return;
+  store.addTask(props.column.id, newTaskName.value.trim());
+  newTaskName.value = "";
+}
 </script>
 
 <style scoped>
@@ -38,6 +61,29 @@ const store = useKanbanStore();
   border: none;
   color: #fff;
   padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.tasks {
+  margin-bottom: 10px;
+  min-height: 100px;
+}
+.add-task {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.task-input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.add-task-btn {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
 }
